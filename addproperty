@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css">
+    <title>Storage Space Finder</title>
+</head>
+
+<body>
+     <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./">My Storage</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="findproperty.html">Find Storages</a></li>
+            <li><a href="addproperty.html">Add Property</a></li>
+            <!-- <li><a href="developers">Developers</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-danger" type="button" id="my_properties">My Properties</button>
+                <form method="post" id="checkuploadedStorages" style="display: none;margin-top: 50%;">
+                    <div class="form-group">
+                        <label>Enter Phone Number</label>
+                        <input type="number" name="phonenumber" id="phonenumber" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" type="button" id="checkproperty" name="checkproperty">Submit</button>
+                </form>
+            </div>
+            <br><br><br>
+            <div class="col-md-12 all_data">
+                <div class="well">
+                    <form method="post" id="storageLoadingForm" class=" form-well-div" enctype="multiparty/form-data">
+                        <b>Fields Marked With <span class="glyphicon glyphicon-asterisk" style="color: red"></span> Are Required</b><br><br>
+                        <div class="form-group">
+                            <label>Storage Image</label>
+                            <input type="file" name="storage_image" id="storage_image"  class="form-control">
+                        </div>
+                        <!-- <button class="btn btn-default" onclick="uploadFromGallery()">Add Picture</button> -->
+                       <!--  <a data-role="button" onClick="uploadFromGallery();" class="btn btn-primary">Upload from Gallery</a> -->
+                        <div class="form-group">
+                            <label>Storage Type <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <select class="form-control" name="storage_type" id="storage_type" required="required">
+                                <option value="">--Select--</option>
+                                <option value="Home Storage">Home Storage</option>
+                                <option value="Office Storage">Office Storage</option>
+                                <option value="Warehouse Storage">Warehouse Storage</option>
+                                <option value="Factory Storage">Factory Storage</option>
+                            </select>
+                            <div id="error1"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Storage Dimension <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <select class="form-control" name="storage_dimension" id="storage_dimension" required="required">
+                                <option value="">--Select--</option>
+                                <option value="10m2 - 50m2">10m Squared - 50m Squared</option>
+                                <option value="50m2 - 100m2">50m Squared - 100m Squared</option>
+                                <option value="100m2 - Above">100m Squared - Above</option>
+                            </select>
+                            <div id="error2"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Storage Features <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <br>
+                            <input type="checkbox" name="storage_features[]" id="storage_features" value="Private Space">&nbsp; <span>Private Space</span><br>
+                            <input type="checkbox" name="storage_features[]" id="storage_features" value="Shared Space">&nbsp; <span>Shared Space</span><br>
+                            <input type="checkbox" name="storage_features[]" id="storage_features" value="CCTV">
+                            &nbsp; <span>CCTV</span><br>
+                            <input type="checkbox" name="storage_features[]" id="storage_features" value="24/7 Security">&nbsp; <span>24/7 Security Guard</span><br>
+                            <input type="checkbox" name="storage_features[]" id="storage_features" value="Wall Fence">&nbsp; <span>In Wall Fence</span><br>
+                            <div id="error3"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Storage Location <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <input type="text" class="form-control" name="storage_location" id="storage_location" placeholder="Enter City" required="required">
+                            <div id="error4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Monthly Rent - $ <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <input type="number" class="form-control" name="storage_rent" id="storage_rent" placeholder="Enter Amount" required="required">
+                            <div id="error5"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Other Details</label>
+                            <textarea cols="9" rows="4" name="storage_other_details" id="storage_other_details" class="form-control"></textarea>
+                            <i>optional</i>
+                        </div>
+                         <div class="form-group">
+                            <label>Phone Number <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <input type="number" class="form-control" name="user_phone" id="user_phone" placeholder=" Phone Number Without Country Code" required="required">
+                            <div id="error6"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>User Name <span class="glyphicon glyphicon-asterisk"></span></label>
+                            <input type="text" class="form-control" name="username" id="username" placeholder=" User Name Name" required="required">
+                            <div id="error7"></div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" type="button" name="post_storage" id="post_storage" style="width: 100%">Post Storage</button>
+                                 
+                        </div>
+                    </form>
+                
+                    <div class="confirm_details">
+                        <!-- We will display all details filled i by the user so that they can confirm the details before submitting -->
+                        <h2 class="text-center">Confirm Details</h2>
+                        <hr>
+                        <p id="storage_image_show"></p>
+                        <p id="storage_type_show"></p>
+                        <p id="storage_dimension_show"></p>
+                        <p id="storage_features_show"></p>
+                        <p id="storage_location_show"></p>
+                        <p id="storage_rent_show"></p>
+                        <p id="storage_other_details_show"></p>
+                        <p id="user_phone_show"></p>
+                        <p id="username_show"></p>
+                        <p><button type="button" class="btn btn-warning" id="editdetails" style="width: 100%;">Edit Details</button><br><br><button class="btn btn-success" type="submit" name="confirm_storage" id="confirm_storage" style="width: 100%;">Post Storage</button></p>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <footer><small>&copy; Copyright</small></footer> -->
+        <div id="displayUserPostedStorage">
+            
+        </div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+  
+</body>
+
+</html>
